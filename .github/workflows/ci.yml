@@ -1,0 +1,128 @@
+name: CI
+
+# Pipeline de integracion continua con aseguramiento de calidad integrado.
+# Etapas: build -> test -> analyze -> report.
+# Si el umbral de cobertura (jest.config.js) o el quality gate de SonarQube Cloud
+# no se cumplen, el pipeline falla y el pull request no debe aceptarse.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  # Etapa 1: instala dependencias y comprueba que el backend y el frontend compilan.
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            backend-express/package-lock.json
+            frontend-react/package-lock.json
+      - name: Install backend dependencies
+        working-directory: backend-express
+        run: npm ci
+      - name: Install frontend dependencies
+        working-directory: frontend-react
+        run: npm ci
+      - name: Build frontend
+        working-directory: frontend-react
+        run: npm run build
+
+  # Etapa 2: pruebas unitarias, de integracion y de regresion con cobertura.
+  # Jest falla si la cobertura global queda por debajo del 60 % (jest.config.js).
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend-express/package-lock.json
+      - name: Install backend dependencies
+        working-directory: backend-express
+        run: npm ci
+      - name: Run tests with coverage
+        working-directory: backend-express
+        run: npm run test:coverage
+      - name: Upload coverage report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: backend-coverage
+          path: backend-express/coverage
+          if-no-files-found: warn
+
+  # Etapa 3: analisis estatico y quality gate en SonarQube Cloud.
+  # El escaner espera el resultado del gate y falla el job si no se cumple.
+  analyze:
+    name: Analyze
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0 # Un clon completo mejora la relevancia del analisis
+      - name: Download coverage report
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: backend-coverage
+          path: backend-express/coverage
+      - name: Make lcov paths relative to the repository root
+        # Jest escribe las rutas relativas a backend-express/; Sonar las busca desde la raiz.
+        run: sed -i 's|^SF:|SF:backend-express/|' backend-express/coverage/lcov.info
+      - name: Cache SonarQube packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304 # v8.4.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300
+
+  # Etapa 4: resumen de resultados en la pagina del workflow (se ejecuta siempre).
+  report:
+    name: Report
+    needs: [test, analyze]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Download coverage report
+        continue-on-error: true
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: backend-coverage
+          path: backend-express/coverage
+      - name: Write summary
+        env:
+          TEST_RESULT: ${{ needs.test.result }}
+          ANALYZE_RESULT: ${{ needs.analyze.result }}
+        run: node .github/scripts/ci-summary.js >> "$GITHUB_STEP_SUMMARY"
