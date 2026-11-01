@@ -43,7 +43,7 @@ const register = async (req, res) => {
       message: "Register successfully",
       data: omitPassword(user),
     });
-  } catch (error) {
+  } catch {
     res.status(500).send({
       success: false,
       message: "Internal server error",
