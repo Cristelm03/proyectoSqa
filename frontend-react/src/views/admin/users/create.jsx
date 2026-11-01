@@ -1,8 +1,8 @@
-//import useState dan useEffect
+//import useState
 import { useState } from "react";
 
-//import SidebarMenu
-import SidebarMenu from "../../../components/SidebarMenu";
+//import UserForm
+import UserForm from "../../../components/UserForm";
 
 //import useNavigate
 import { useNavigate } from "react-router-dom";
@@ -21,12 +21,15 @@ export default function UsersCreate() {
   const navigate = useNavigate();
 
   //define state
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({ name: "", email: "", password: "" });
 
   //state validation
   const [validation, setValidation] = useState([]);
+
+  //function "handleChange": update one field of the form
+  const handleChange = (field, value) => {
+    setUser((current) => ({ ...current, [field]: value }));
+  };
 
   //function "storeUser"
   const storeUser = async (e) => {
@@ -35,11 +38,7 @@ export default function UsersCreate() {
     //call api
     api.defaults.headers.common["Authorization"] = token;
     await api
-      .post("/api/users/create", {
-        name: name,
-        email: email,
-        password: password,
-      })
+      .post("/api/users/create", user)
       .then(() => {
         //redirect ke halaman users
         navigate("/admin/users");
@@ -51,75 +50,13 @@ export default function UsersCreate() {
   };
 
   return (
-    <div className="container mt-5 mb-5">
-      <div className="row">
-        <div className="col-md-3">
-          <SidebarMenu />
-        </div>
-        <div className="col-md-9">
-          <div className="card border-0 rounded shadow-sm">
-            <div className="card-header">ADD USER</div>
-            <div className="card-body">
-              {validation.errors && (
-                <div className="alert alert-danger mt-2 pb-0">
-                  {validation.errors.map((error, index) => (
-                    <p key={index}>
-                      {error.path} : {error.msg}
-                    </p>
-                  ))}
-                </div>
-              )}
-              <form onSubmit={storeUser}>
-                <div className="form-group mb-3">
-                  <label htmlFor="name" className="mb-1 fw-bold">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="form-control"
-                    id="name"
-                    placeholder="Full Name"
-                  />
-                </div>
-
-                <div className="form-group mb-3">
-                  <label htmlFor="email" className="mb-1 fw-bold">
-                    Email address
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="form-control"
-                    id="email"
-                    placeholder="Email Address"
-                  />
-                </div>
-
-                <div className="form-group mb-3">
-                  <label htmlFor="password" className="mb-1 fw-bold">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-control"
-                    id="password"
-                    placeholder="Password"
-                  />
-                </div>
-
-                <button type="submit" className="btn btn-sm btn-primary">
-                  SAVE
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <UserForm
+      title="ADD USER"
+      submitLabel="SAVE"
+      values={user}
+      errors={validation.errors}
+      onChange={handleChange}
+      onSubmit={storeUser}
+    />
   );
 }
