@@ -60,6 +60,22 @@ describe("vista de usuarios (editar)", () => {
     expect(await screen.findByTestId("location")).toHaveTextContent("/admin/users");
   });
 
+  it("TC-F35: si la API falla al cargar el usuario registra el error y deja el formulario vacio", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    api.get.mockRejectedValue(new Error("network"));
+
+    renderEdit();
+
+    await waitFor(() =>
+      expect(errorSpy).toHaveBeenCalledWith(
+        "There was an error fetching the user!",
+        expect.any(Error)
+      )
+    );
+    expect(screen.getByPlaceholderText("Full Name")).toHaveValue("");
+    errorSpy.mockRestore();
+  });
+
   it("TC-F13: muestra los errores de validacion al actualizar", async () => {
     loadUser();
     api.put.mockRejectedValue(

@@ -1,8 +1,8 @@
 //import useState dan useEffect
 import { useState, useEffect } from "react";
 
-//import SidebarMenu
-import SidebarMenu from "../../../components/SidebarMenu";
+//import UserForm
+import UserForm from "../../../components/UserForm";
 
 //import useNavigate
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,28 +24,29 @@ export default function UsersEdit() {
   const { id } = useParams();
 
   //define state
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({ name: "", email: "", password: "" });
 
   //state validation
   const [validation, setValidation] = useState([]);
 
-  //method fetchDetailUser
-  const fetchDetailUser = async () => {
-    //fetch data
-    await api.get(`/api/users/find/${id}`).then((response) => {
-      //assign to state
-      setName(response.data.data.name);
-      setEmail(response.data.data.email);
-    });
-  };
-
-  //hook useEffect
+  //hook useEffect: fetch the user detail again whenever the ID in the URL changes
   useEffect(() => {
-    //call method "fetchDetailUser"
-    fetchDetailUser();
-  }, []);
+    api
+      .get(`/api/users/find/${id}`)
+      .then((response) => {
+        //assign to state
+        const { name, email } = response.data.data;
+        setUser((current) => ({ ...current, name, email }));
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the user!", error);
+      });
+  }, [id]);
+
+  //function "handleChange": update one field of the form
+  const handleChange = (field, value) => {
+    setUser((current) => ({ ...current, [field]: value }));
+  };
 
   //method "updateUser"
   const updateUser = async (e) => {
@@ -54,11 +55,7 @@ export default function UsersEdit() {
     //call api
     api.defaults.headers.common["Authorization"] = token;
     await api
-      .put(`/api/users/update/${id}`, {
-        name: name,
-        email: email,
-        password: password,
-      })
+      .put(`/api/users/update/${id}`, user)
       .then(() => {
         //redirect ke halaman users
         navigate("/admin/users");
@@ -70,66 +67,13 @@ export default function UsersEdit() {
   };
 
   return (
-    <div className="container mt-5 mb-5">
-      <div className="row">
-        <div className="col-md-3">
-          <SidebarMenu />
-        </div>
-        <div className="col-md-9">
-          <div className="card border-0 rounded shadow-sm">
-            <div className="card-header">EDIT USER</div>
-            <div className="card-body">
-              {validation.errors && (
-                <div className="alert alert-danger mt-2 pb-0">
-                  {validation.errors.map((error, index) => (
-                    <p key={index}>
-                      {error.path} : {error.msg}
-                    </p>
-                  ))}
-                </div>
-              )}
-              <form onSubmit={updateUser}>
-                <div className="form-group mb-3">
-                  <label className="mb-1 fw-bold">Full Name</label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="form-control"
-                    placeholder="Full Name"
-                  />
-                </div>
-
-                <div className="form-group mb-3">
-                  <label className="mb-1 fw-bold">Email address</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="form-control"
-                    placeholder="Email Address"
-                  />
-                </div>
-
-                <div className="form-group mb-3">
-                  <label className="mb-1 fw-bold">Password</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-control"
-                    placeholder="Password"
-                  />
-                </div>
-
-                <button type="submit" className="btn btn-sm btn-primary">
-                  UPDATE
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <UserForm
+      title="EDIT USER"
+      submitLabel="UPDATE"
+      values={user}
+      errors={validation.errors}
+      onChange={handleChange}
+      onSubmit={updateUser}
+    />
   );
 }

@@ -18,7 +18,9 @@ describe("App", () => {
 
     expect(screen.getByRole("link", { name: "HOME" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("button", { name: "Toggle navigation" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /FULLTSACK JAVASCRIPT DEVELOPER/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /FULLTSACK JAVASCRIPT DEVELOPER/ })
+    ).toBeInTheDocument();
   });
 });
 

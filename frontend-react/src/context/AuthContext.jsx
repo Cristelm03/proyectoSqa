@@ -1,8 +1,11 @@
 //import React dan hooks createContext, useState, dan useEffect dari 'react'
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 //import Cookies dari 'js-cookie' untuk mengelola cookies
 import Cookies from "js-cookie";
+
+//import PropTypes to validate the props of the provider
+import PropTypes from "prop-types";
 
 //Membuat context untuk menyimpan status otentikasi
 export const AuthContext = createContext();
@@ -10,9 +13,7 @@ export const AuthContext = createContext();
 //Membuat provider otentikasi dengan menggunakan context yang telah dibuat sebelumnya
 export const AuthProvider = ({ children }) => {
   //Menggunakan useState untuk menyimpan status otentikasi berdasarkan keberadaan token di cookies
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!Cookies.get("token")
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get("token"));
 
   //Menggunakan useEffect untuk memantau perubahan pada token di cookies
   useEffect(() => {
@@ -35,4 +36,8 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node,
 };

@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 
 //import hook react
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 // import Cookies from js-cookie
 import Cookies from "js-cookie";
@@ -35,26 +35,16 @@ export default function SidebarMenu() {
       <div className="card-header">MAIN MENU</div>
       <div className="card-body">
         <div className="list-group">
-          <Link
-            to="/admin/dashboard"
-            className="list-group-item list-group-item-action"
-          >
+          <Link to="/admin/dashboard" className="list-group-item list-group-item-action">
             Dashboard
           </Link>
 
-          <Link
-            to="/admin/users"
-            className="list-group-item list-group-item-action"
-          >
+          <Link to="/admin/users" className="list-group-item list-group-item-action">
             Users
           </Link>
-          <a
-            onClick={logout}
-            className="list-group-item list-group-item-action"
-            style={{ cursor: "pointer" }}
-          >
+          <button type="button" onClick={logout} className="list-group-item list-group-item-action">
             Logout
-          </a>
+          </button>
         </div>
       </div>
     </div>

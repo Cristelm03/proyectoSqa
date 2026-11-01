@@ -30,17 +30,19 @@ describe("rutas de la aplicacion", () => {
   it("TC-F28: la raiz es publica y muestra la pagina de inicio", () => {
     renderRoutes("/", false);
 
-    expect(screen.getByRole("heading", { name: /FULLTSACK JAVASCRIPT DEVELOPER/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /FULLTSACK JAVASCRIPT DEVELOPER/ })
+    ).toBeInTheDocument();
   });
 
-  it.each([["/login", "LOGIN"], ["/register", "REGISTER"]])(
-    "TC-F29: sin sesion %s muestra su formulario",
-    (path, heading) => {
-      renderRoutes(path, false);
+  it.each([
+    ["/login", "LOGIN"],
+    ["/register", "REGISTER"],
+  ])("TC-F29: sin sesion %s muestra su formulario", (path, heading) => {
+    renderRoutes(path, false);
 
-      expect(screen.getByRole("heading", { name: heading })).toBeInTheDocument();
-    }
-  );
+    expect(screen.getByRole("heading", { name: heading })).toBeInTheDocument();
+  });
 
   it.each([
     ["/admin/dashboard"],
@@ -53,14 +55,11 @@ describe("rutas de la aplicacion", () => {
     expect(screen.getByRole("heading", { name: "LOGIN" })).toBeInTheDocument();
   });
 
-  it.each([["/login"], ["/register"]])(
-    "TC-F31: con sesion %s redirige al dashboard",
-    (path) => {
-      renderRoutes(path, true);
+  it.each([["/login"], ["/register"]])("TC-F31: con sesion %s redirige al dashboard", (path) => {
+    renderRoutes(path, true);
 
-      expect(screen.getByText("DASHBOARD")).toBeInTheDocument();
-    }
-  );
+    expect(screen.getByText("DASHBOARD")).toBeInTheDocument();
+  });
 
   it.each([
     ["/admin/dashboard", "DASHBOARD"],

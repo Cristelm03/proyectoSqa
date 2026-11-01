@@ -28,7 +28,9 @@ describe("pagina de inicio", () => {
   it("TC-F21: muestra el titulo y los enlaces a registro y login", () => {
     renderView(<Home />, { path: "/" });
 
-    expect(screen.getByRole("heading", { name: /FULLTSACK JAVASCRIPT DEVELOPER/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /FULLTSACK JAVASCRIPT DEVELOPER/ })
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "REGISTER" })).toHaveAttribute("href", "/register");
     expect(screen.getByRole("link", { name: "LOGIN" })).toHaveAttribute("href", "/login");
   });
