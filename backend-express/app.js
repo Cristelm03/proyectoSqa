@@ -13,8 +13,13 @@ const router = require("./routes");
 //init app
 const app = express();
 
-//use cors
-app.use(cors());
+//do not disclose the framework (X-Powered-By: Express)
+app.disable("x-powered-by");
+
+//use cors: only the origins listed in CORS_ORIGIN (comma separated).
+//The default is the Vite dev server of the frontend.
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173").split(",");
+app.use(cors({ origin: allowedOrigins }));
 
 //use body parser
 app.use(bodyParser.urlencoded({ extended: false }));
