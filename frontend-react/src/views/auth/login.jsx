@@ -77,30 +77,34 @@ export default function Login() {
               </div>
             )}
             {loginFailed.message && (
-              <div className="alert alert-danger mt-2">
-                {loginFailed.message}
-              </div>
+              <div className="alert alert-danger mt-2">{loginFailed.message}</div>
             )}
             <form onSubmit={login}>
               <div className="form-group mb-3">
-                <label htmlFor="email" className="mb-1 fw-bold">Email address</label>
+                <label htmlFor="email" className="mb-1 fw-bold">
+                  Email address
+                </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="form-control"
-                  id="email" placeholder="Email Address"
+                  id="email"
+                  placeholder="Email Address"
                 />
               </div>
 
               <div className="form-group mb-3">
-                <label htmlFor="password" className="mb-1 fw-bold">Password</label>
+                <label htmlFor="password" className="mb-1 fw-bold">
+                  Password
+                </label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control"
-                  id="password" placeholder="Password"
+                  id="password"
+                  placeholder="Password"
                 />
               </div>
               <button type="submit" className="btn btn-primary w-100">

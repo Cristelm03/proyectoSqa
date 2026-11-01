@@ -29,4 +29,5 @@ export function renderView(element, { path = "/", routePath = path, auth = {} } 
 }
 
 // Error con la forma que produce axios cuando el servidor responde con un codigo de error
-export const apiError = (data) => Object.assign(new Error("Request failed"), { response: { data } });
+export const apiError = (data) =>
+  Object.assign(new Error("Request failed"), { response: { data } });

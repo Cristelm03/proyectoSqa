@@ -6,9 +6,7 @@ export default function Home() {
     <div className="p-5 mb-4 bg-light rounded-3 shadow-sm">
       <div className="container-fluid py-5">
         <h1 className="display-5 fw-bold">FULLTSACK JAVASCRIPT DEVELOPER</h1>
-        <p className="col-md-12 fs-4">
-          Implementasi tech stack Express.js dan React.js
-        </p>
+        <p className="col-md-12 fs-4">Implementasi tech stack Express.js dan React.js</p>
         <hr />
         <Link to="/register" className="btn btn-primary btn-lg me-3">
           REGISTER

@@ -35,24 +35,14 @@ export default function SidebarMenu() {
       <div className="card-header">MAIN MENU</div>
       <div className="card-body">
         <div className="list-group">
-          <Link
-            to="/admin/dashboard"
-            className="list-group-item list-group-item-action"
-          >
+          <Link to="/admin/dashboard" className="list-group-item list-group-item-action">
             Dashboard
           </Link>
 
-          <Link
-            to="/admin/users"
-            className="list-group-item list-group-item-action"
-          >
+          <Link to="/admin/users" className="list-group-item list-group-item-action">
             Users
           </Link>
-          <button
-            type="button"
-            onClick={logout}
-            className="list-group-item list-group-item-action"
-          >
+          <button type="button" onClick={logout} className="list-group-item list-group-item-action">
             Logout
           </button>
         </div>

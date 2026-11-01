@@ -71,35 +71,44 @@ export default function UsersCreate() {
               )}
               <form onSubmit={storeUser}>
                 <div className="form-group mb-3">
-                  <label htmlFor="name" className="mb-1 fw-bold">Full Name</label>
+                  <label htmlFor="name" className="mb-1 fw-bold">
+                    Full Name
+                  </label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="form-control"
-                    id="name" placeholder="Full Name"
+                    id="name"
+                    placeholder="Full Name"
                   />
                 </div>
 
                 <div className="form-group mb-3">
-                  <label htmlFor="email" className="mb-1 fw-bold">Email address</label>
+                  <label htmlFor="email" className="mb-1 fw-bold">
+                    Email address
+                  </label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-control"
-                    id="email" placeholder="Email Address"
+                    id="email"
+                    placeholder="Email Address"
                   />
                 </div>
 
                 <div className="form-group mb-3">
-                  <label htmlFor="password" className="mb-1 fw-bold">Password</label>
+                  <label htmlFor="password" className="mb-1 fw-bold">
+                    Password
+                  </label>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="form-control"
-                    id="password" placeholder="Password"
+                    id="password"
+                    placeholder="Password"
                   />
                 </div>
 

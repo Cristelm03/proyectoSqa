@@ -13,9 +13,7 @@ export const AuthContext = createContext();
 //Membuat provider otentikasi dengan menggunakan context yang telah dibuat sebelumnya
 export const AuthProvider = ({ children }) => {
   //Menggunakan useState untuk menyimpan status otentikasi berdasarkan keberadaan token di cookies
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!Cookies.get("token")
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get("token"));
 
   //Menggunakan useEffect untuk memantau perubahan pada token di cookies
   useEffect(() => {
