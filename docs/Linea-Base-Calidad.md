@@ -75,7 +75,8 @@ Se encontraron al revisar el código a mano. Son candidatos directos a **pruebas
 3. `updateUser` y `deleteUser` con un id inexistente responden `500` (debería ser `404`).
 4. El middleware `verifyToken` espera el token crudo en `Authorization`, sin el esquema `Bearer`.
 5. `index.js` llama a `app.listen` al importarse, lo que impide probar la API con Supertest sin levantar el servidor.
-6. El bloque de validación se repite en 4 funciones. Falta verificar qué archivos concentran la duplicación del 9.9 % (los formularios del frontend también son candidatos).
+6. El bloque de validación se repite en 4 funciones del backend. Sonar confirmó después que la duplicación del 9.9 % se concentraba en el frontend: `create.jsx` y `edit.jsx` repetían 41 líneas idénticas del formulario.
+7. Un id no numérico en la ruta (por ejemplo `/api/users/find/abc`) provocaba un error 500 de Prisma en lugar de un 400. Se descubrió al escribir las pruebas de regresión (`TC-R09`).
 
 ## 5. Cómo reproducir esta medición
 
