@@ -36,7 +36,10 @@ describe("defecto 1: la API no debe devolver el hash de la contrasena", () => {
   test("TC-R02: POST /api/users/create", async () => {
     prisma.user.create.mockResolvedValue(makeUser());
 
-    const res = await request(app).post("/api/users/create").set("Authorization", token).send(userData);
+    const res = await request(app)
+      .post("/api/users/create")
+      .set("Authorization", token)
+      .send(userData);
 
     expect(res.status).toBe(201);
     expectNoPasswordLeak(res);
@@ -45,7 +48,10 @@ describe("defecto 1: la API no debe devolver el hash de la contrasena", () => {
   test("TC-R03: PUT /api/users/update/:id", async () => {
     prisma.user.update.mockResolvedValue(makeUser());
 
-    const res = await request(app).put("/api/users/update/1").set("Authorization", token).send(userData);
+    const res = await request(app)
+      .put("/api/users/update/1")
+      .set("Authorization", token)
+      .send(userData);
 
     expect(res.status).toBe(200);
     expectNoPasswordLeak(res);
@@ -65,7 +71,10 @@ describe("defecto 2: un usuario inexistente responde 404", () => {
   test("TC-R05: PUT /api/users/update/:id", async () => {
     prisma.user.update.mockRejectedValue(recordNotFound());
 
-    const res = await request(app).put("/api/users/update/999").set("Authorization", token).send(userData);
+    const res = await request(app)
+      .put("/api/users/update/999")
+      .set("Authorization", token)
+      .send(userData);
 
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ success: false, message: "User not found" });

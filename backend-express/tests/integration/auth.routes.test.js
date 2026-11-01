@@ -98,7 +98,9 @@ describe("POST /api/login", () => {
   test("TC-I08: devuelve 401 si la contrasena es incorrecta", async () => {
     prisma.user.findFirst.mockResolvedValue(makeUser());
 
-    const res = await request(app).post("/api/login").send({ ...credentials, password: "otra-clave" });
+    const res = await request(app)
+      .post("/api/login")
+      .send({ ...credentials, password: "otra-clave" });
 
     expect(res.status).toBe(401);
     expect(res.body).toEqual({ success: false, message: "Invalid password" });
