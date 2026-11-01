@@ -64,6 +64,8 @@ El backend no tenía linter, así que no había nada que medir. Para poder compa
 | ESLint | **11 errores** (todos `no-unused-vars`), en 4 de 9 archivos |
 | Prettier | **5 de 10** archivos de código y JSON sin el formato esperado |
 
+El frontend ya tenía ESLint, así que solo faltaba medir el formato: con el mismo `.prettierrc`, **8 de 16** archivos de código y JSON del frontend original no tenían el formato esperado.
+
 ## 4. Defectos conocidos que las herramientas no detectan
 
 Se encontraron al revisar el código a mano. Son candidatos directos a **pruebas de regresión**:
