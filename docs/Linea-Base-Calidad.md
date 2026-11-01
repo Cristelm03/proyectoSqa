@@ -57,6 +57,13 @@ Medidas el 2026-10-31 sobre el tag `baseline`, con Node 20.18 y npm 10.8.
 
 Reglas de ESLint que fallan en el frontend: `no-unused-vars` (6), `react/prop-types` (1), `react-hooks/exhaustive-deps` (1).
 
+El backend no tenía linter, así que no había nada que medir. Para poder comparar, la configuración de ESLint y Prettier que se agregó en la intervención (`backend-express/eslint.config.js` y `.prettierrc`) se aplicó también al código original del tag `baseline`, usando un worktree temporal:
+
+| Métrica | Backend original |
+|---|---|
+| ESLint | **11 errores** (todos `no-unused-vars`), en 4 de 9 archivos |
+| Prettier | **5 de 10** archivos de código y JSON sin el formato esperado |
+
 ## 4. Defectos conocidos que las herramientas no detectan
 
 Se encontraron al revisar el código a mano. Son candidatos directos a **pruebas de regresión**:

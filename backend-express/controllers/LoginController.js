@@ -46,10 +46,7 @@ const login = async (req, res) => {
       });
 
     //compare password
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
 
     //password incorrect
     if (!validPassword)
@@ -75,7 +72,7 @@ const login = async (req, res) => {
         token: token,
       },
     });
-  } catch (error) {
+  } catch {
     res.status(500).send({
       success: false,
       message: "Internal server error",

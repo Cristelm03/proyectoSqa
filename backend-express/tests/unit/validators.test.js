@@ -58,7 +58,9 @@ describe("validateRegister", () => {
 
 describe("validateLogin", () => {
   test("TC-U11: acepta credenciales con formato valido", async () => {
-    expect(await messagesFor(validateLogin, { email: "ana@mail.com", password: "secret123" })).toEqual([]);
+    expect(
+      await messagesFor(validateLogin, { email: "ana@mail.com", password: "secret123" })
+    ).toEqual([]);
   });
 
   test("TC-U12: exige correo y contrasena de 6 caracteres como minimo", async () => {
@@ -86,7 +88,11 @@ describe("validateUser", () => {
   });
 
   test("TC-U16: exige nombre y contrasena minima", async () => {
-    const messages = await messagesFor(validateUser, { name: "", email: "ana@mail.com", password: "1" });
+    const messages = await messagesFor(validateUser, {
+      name: "",
+      email: "ana@mail.com",
+      password: "1",
+    });
     expect(messages).toEqual(
       expect.arrayContaining(["Name is required", "Password must be at least 6 characters long"])
     );

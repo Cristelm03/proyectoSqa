@@ -25,17 +25,13 @@ const validateRegister = [
 
       return true;
     }),
-  body("password")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters long"),
+  body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
 ];
 
 //definisikan validasi untuk login
 const validateLogin = [
   body("email").notEmpty().withMessage("Email is required"),
-  body("password")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters long"),
+  body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
 ];
 
 module.exports = { validateRegister, validateLogin };

@@ -32,23 +32,13 @@ router.post("/login", validateLogin, loginController.login);
 router.get("/users", verifyToken, userController.findUsers);
 
 //define route for user create
-router.post(
-  "/users/create",
-  verifyToken,
-  validateUser,
-  userController.createUser
-);
+router.post("/users/create", verifyToken, validateUser, userController.createUser);
 
 //define route for user by id
 router.get("/users/find/:id", verifyToken, userController.findUserById);
 
 //define route for user update
-router.put(
-  "/users/update/:id",
-  verifyToken,
-  validateUser,
-  userController.updateUser
-);
+router.put("/users/update/:id", verifyToken, validateUser, userController.updateUser);
 
 //define route for user delete
 router.delete("/users/delete/:id", verifyToken, userController.deleteUser);

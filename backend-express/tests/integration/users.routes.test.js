@@ -66,7 +66,10 @@ describe("POST /api/users/create", () => {
   test("TC-I15: crea un usuario con la contrasena cifrada", async () => {
     prisma.user.create.mockImplementation(async ({ data }) => makeUser({ id: 3, ...data }));
 
-    const res = await request(app).post("/api/users/create").set("Authorization", token).send(userData);
+    const res = await request(app)
+      .post("/api/users/create")
+      .set("Authorization", token)
+      .send(userData);
 
     expect(res.status).toBe(201);
     expect(res.body).toMatchObject({ success: true, message: "User created successfully" });
@@ -87,7 +90,10 @@ describe("POST /api/users/create", () => {
   test("TC-I17: devuelve 500 si la base de datos falla", async () => {
     prisma.user.create.mockRejectedValue(new Error("db down"));
 
-    const res = await request(app).post("/api/users/create").set("Authorization", token).send(userData);
+    const res = await request(app)
+      .post("/api/users/create")
+      .set("Authorization", token)
+      .send(userData);
 
     expect(res.status).toBe(500);
   });
@@ -102,7 +108,9 @@ describe("GET /api/users/find/:id", () => {
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("Get user By ID :1");
     expect(res.body.data).toEqual({ id: 1, name: "Ana", email: "ana@mail.com" });
-    expect(prisma.user.findUnique).toHaveBeenCalledWith(expect.objectContaining({ where: { id: 1 } }));
+    expect(prisma.user.findUnique).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { id: 1 } })
+    );
   });
 
   test("TC-I19: devuelve 500 si la base de datos falla", async () => {
@@ -116,9 +124,14 @@ describe("GET /api/users/find/:id", () => {
 
 describe("PUT /api/users/update/:id", () => {
   test("TC-I20: actualiza el usuario indicado", async () => {
-    prisma.user.update.mockImplementation(async ({ where, data }) => makeUser({ id: where.id, ...data }));
+    prisma.user.update.mockImplementation(async ({ where, data }) =>
+      makeUser({ id: where.id, ...data })
+    );
 
-    const res = await request(app).put("/api/users/update/5").set("Authorization", token).send(userData);
+    const res = await request(app)
+      .put("/api/users/update/5")
+      .set("Authorization", token)
+      .send(userData);
 
     expect(res.status).toBe(200);
     expect(res.body).toMatchObject({ success: true, message: "User updated successfully" });
@@ -138,7 +151,10 @@ describe("PUT /api/users/update/:id", () => {
   test("TC-I22: devuelve 500 si la base de datos falla", async () => {
     prisma.user.update.mockRejectedValue(new Error("db down"));
 
-    const res = await request(app).put("/api/users/update/5").set("Authorization", token).send(userData);
+    const res = await request(app)
+      .put("/api/users/update/5")
+      .set("Authorization", token)
+      .send(userData);
 
     expect(res.status).toBe(500);
   });
