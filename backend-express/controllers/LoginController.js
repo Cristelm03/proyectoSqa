@@ -1,6 +1,3 @@
-//import express
-const express = require("express");
-
 // Import validationResult from express-validator
 const { validationResult } = require("express-validator");
 

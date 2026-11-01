@@ -1,6 +1,3 @@
-//import express
-const express = require("express");
-
 // Import validationResult from express-validator
 const { validationResult } = require("express-validator");
 
@@ -9,6 +6,9 @@ const bcrypt = require("bcrypt");
 
 //import prisma client
 const prisma = require("../prisma/client");
+
+//import user helpers
+const { omitPassword } = require("../utils/user");
 
 //function register
 const register = async (req, res) => {
@@ -41,7 +41,7 @@ const register = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "Register successfully",
-      data: user,
+      data: omitPassword(user),
     });
   } catch (error) {
     res.status(500).send({
