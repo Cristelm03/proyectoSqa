@@ -1,5 +1,5 @@
 //import hook react
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 
 //import hook useNavigate from react router dom
 import { useNavigate } from "react-router-dom";
@@ -83,24 +83,24 @@ export default function Login() {
             )}
             <form onSubmit={login}>
               <div className="form-group mb-3">
-                <label className="mb-1 fw-bold">Email address</label>
+                <label htmlFor="email" className="mb-1 fw-bold">Email address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="form-control"
-                  placeholder="Email Address"
+                  id="email" placeholder="Email Address"
                 />
               </div>
 
               <div className="form-group mb-3">
-                <label className="mb-1 fw-bold">Password</label>
+                <label htmlFor="password" className="mb-1 fw-bold">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control"
-                  placeholder="Password"
+                  id="password" placeholder="Password"
                 />
               </div>
               <button type="submit" className="btn btn-primary w-100">

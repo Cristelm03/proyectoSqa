@@ -1,5 +1,5 @@
 //import hook react
-import React, { useState } from "react";
+import { useState } from "react";
 
 //import hook useNavigate from react router dom
 import { useNavigate } from "react-router-dom";
@@ -62,13 +62,13 @@ export default function Register() {
                 <div className="row">
                   <div className="col-md-12 mb-3">
                     <div className="form-group">
-                      <label className="mb-1 fw-bold">Full Name</label>
+                      <label htmlFor="name" className="mb-1 fw-bold">Full Name</label>
                       <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="form-control"
-                        placeholder="Full Name"
+                        id="name" placeholder="Full Name"
                       />
                     </div>
                   </div>
@@ -77,25 +77,25 @@ export default function Register() {
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <div className="form-group">
-                      <label className="mb-1 fw-bold">Email address</label>
+                      <label htmlFor="email" className="mb-1 fw-bold">Email address</label>
                       <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="form-control"
-                        placeholder="Email Address"
+                        id="email" placeholder="Email Address"
                       />
                     </div>
                   </div>
                   <div className="col-md-6 mb-3">
                     <div className="form-group">
-                      <label className="mb-1 fw-bold">Password</label>
+                      <label htmlFor="password" className="mb-1 fw-bold">Password</label>
                       <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="form-control"
-                        placeholder="Password"
+                        id="password" placeholder="Password"
                       />
                     </div>
                   </div>

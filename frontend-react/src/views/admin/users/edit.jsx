@@ -31,21 +31,19 @@ export default function UsersEdit() {
   //state validation
   const [validation, setValidation] = useState([]);
 
-  //method fetchDetailUser
-  const fetchDetailUser = async () => {
-    //fetch data
-    await api.get(`/api/users/find/${id}`).then((response) => {
-      //assign to state
-      setName(response.data.data.name);
-      setEmail(response.data.data.email);
-    });
-  };
-
-  //hook useEffect
+  //hook useEffect: fetch the user detail again whenever the ID in the URL changes
   useEffect(() => {
-    //call method "fetchDetailUser"
-    fetchDetailUser();
-  }, []);
+    api
+      .get(`/api/users/find/${id}`)
+      .then((response) => {
+        //assign to state
+        setName(response.data.data.name);
+        setEmail(response.data.data.email);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the user!", error);
+      });
+  }, [id]);
 
   //method "updateUser"
   const updateUser = async (e) => {
@@ -90,35 +88,35 @@ export default function UsersEdit() {
               )}
               <form onSubmit={updateUser}>
                 <div className="form-group mb-3">
-                  <label className="mb-1 fw-bold">Full Name</label>
+                  <label htmlFor="name" className="mb-1 fw-bold">Full Name</label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="form-control"
-                    placeholder="Full Name"
+                    id="name" placeholder="Full Name"
                   />
                 </div>
 
                 <div className="form-group mb-3">
-                  <label className="mb-1 fw-bold">Email address</label>
+                  <label htmlFor="email" className="mb-1 fw-bold">Email address</label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-control"
-                    placeholder="Email Address"
+                    id="email" placeholder="Email Address"
                   />
                 </div>
 
                 <div className="form-group mb-3">
-                  <label className="mb-1 fw-bold">Password</label>
+                  <label htmlFor="password" className="mb-1 fw-bold">Password</label>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="form-control"
-                    placeholder="Password"
+                    id="password" placeholder="Password"
                   />
                 </div>
 

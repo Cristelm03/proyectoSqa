@@ -1,5 +1,5 @@
 //import useContext
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 //import context
 import { AuthContext } from "../context/AuthContext";

@@ -42,7 +42,7 @@ export default function UsersIndex() {
   //run hook useEffect
   useEffect(() => {
     //call method "fetchDataUsers"
-    fetchDataUsers();
+    fetchDataUsers().catch(console.error);
   }, []);
 
   //define method "deleteUser"
@@ -59,7 +59,7 @@ export default function UsersIndex() {
         await api.delete(`/api/users/delete/${id}`);
 
         //call method "fetchDataUsers"
-        fetchDataUsers();
+        await fetchDataUsers();
       } catch (error) {
         console.error("There was an error deleting the user!", error);
       }
