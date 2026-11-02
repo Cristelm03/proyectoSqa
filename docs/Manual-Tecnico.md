@@ -206,6 +206,7 @@ Las medidas de Sonar de ese estado están en el análisis de la revisión `0fae5
 ## 7. Limitaciones conocidas
 
 - Las pruebas del backend simulan Prisma: verifican rutas, validaciones, autenticación y contratos HTTP, pero no el SQL real ni las restricciones de MySQL.
+- Queda una duplicación de 3.7 % (59 líneas) entre `register` y `createUser` en el backend; está aceptada como deuda técnica (`SQA-Plan.md`, sección 9).
 - No hay pruebas end-to-end con navegador real ni de rendimiento (fuera del alcance del enunciado).
 - El quality gate usa la definición por defecto de SonarQube Cloud; el plan Free puede limitar su personalización.
 - Las acciones oficiales de GitHub declaran Node 20, en desuso, y generan advertencias que no bloquean.

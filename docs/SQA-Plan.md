@@ -141,6 +141,7 @@ La ruleset **"Proteger main"** está activa, sin lista de excepciones: exige pul
 | Elemento | Motivo por el que se acepta | Plan |
 |---|---|---|
 | Avisos moderados y bajos de `npm audit` en herramientas de desarrollo (ESLint, Jest): 25 en el backend y 6 en el frontend, ninguno crítico ni alto | No se publican con la aplicación; los arreglos requieren saltos de versión mayor de las herramientas | Revisar en cada cierre y actualizar cuando haya un arreglo compatible |
+| Duplicación de 3.7 % (59 líneas): la lógica de alta de usuario está repetida en `register` (`RegisterController.js`) y en `createUser` (`UserController.js`) | Las dos rutas difieren en el mensaje de éxito y en el manejo de errores, y ambas tienen pruebas; el gate solo exige ≤ 3 % en el código nuevo | Extraer una función común si se vuelve a tocar esa zona |
 | Las pruebas de integración usan Prisma simulado | Evita depender de una base de datos en el pipeline | Añadir pruebas contra MySQL real si el proyecto continúa |
 | Las acciones de GitHub declaran Node 20, ya en desuso | Solo genera advertencias | Subir versiones de las acciones cuando existan |
 
