@@ -20,7 +20,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.27.0"
+    "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
@@ -30,8 +30,8 @@
     "@testing-library/user-event": "^14.6.8",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.2",
-    "@vitest/coverage-v8": "^2.1.9",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-v8": "^4.1.12",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.0",
@@ -40,7 +40,7 @@
     "globals": "^15.9.0",
     "jsdom": "^25.0.1",
     "prettier": "^3.9.10",
-    "vite": "^5.4.8",
-    "vitest": "^2.1.9"
+    "vite": "^6.4.5",
+    "vitest": "^4.1.12"
   }
 }
